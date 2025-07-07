@@ -1,0 +1,22 @@
+module.exports = {
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  testTimeout: 30000,
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/main.ts',
+    '!src/**/*.d.ts',
+    '!src/**/index.ts',
+    '!src/**/*.module.ts',
+    '!src/**/*.interface.ts',
+    '!src/**/*.config.ts',
+    '!src/**/*.enum.ts',
+    '!src/**/*.model.ts',
+    '!src/**/*.type.ts',
+  ],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['ts', 'html', 'js', 'json'],
+  resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
+  transformIgnorePatterns: ['node_modules/(?!@angular|@ngrx|ngx-socket-io)'],
+};
