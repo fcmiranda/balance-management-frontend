@@ -1,0 +1,235 @@
+.account-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  &.compact {
+    .mat-mdc-card-header {
+      padding: 1rem;
+    }
+    
+    .mat-mdc-card-content {
+      padding: 0 1rem 1rem;
+    }
+  }
+  
+  .mat-mdc-card-header {
+    padding: 1.5rem 1.5rem 0;
+    position: relative;
+    
+    .account-avatar {
+      .mat-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+    
+    .account-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      
+      .account-type {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+      
+      .status-chip {
+        align-self: flex-start;
+        font-size: 0.75rem;
+        height: 24px;
+        border-radius: 12px;
+      }
+    }
+    
+    .account-number {
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+    
+    .card-actions {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      
+      .mat-mdc-icon-button {
+        width: 32px;
+        height: 32px;
+        
+        .mat-icon {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+  
+  .mat-mdc-card-content {
+    padding: 1.5rem;
+    
+    .balance-section {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      
+      .balance-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+      }
+      
+      .balance-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        
+        &.text-green-600 {
+          color: #059669;
+        }
+        
+        &.text-red-600 {
+          color: #dc2626;
+        }
+        
+        &.text-gray-600 {
+          color: #6b7280;
+        }
+      }
+    }
+    
+    .account-details {
+      display: grid;
+      gap: 0.75rem;
+      
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .label {
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+        
+        .value {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #1e293b;
+        }
+      }
+    }
+  }
+  
+  .mat-mdc-card-actions {
+    &.card-bottom-actions {
+      padding: 0 1.5rem 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: space-between;
+      
+      .mat-mdc-button {
+        flex: 1;
+        min-width: 0;
+        
+        .mat-icon {
+          font-size: 1.1rem;
+          margin-right: 0.25rem;
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+        }
+      }
+      
+      @media (max-width: 640px) {
+        flex-direction: column;
+        gap: 0.5rem;
+        
+        .mat-mdc-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Menu styles
+.mat-mdc-menu-panel {
+  .mat-mdc-menu-item {
+    .mat-icon {
+      margin-right: 0.75rem;
+      font-size: 1.1rem;
+    }
+    
+    &.delete-action {
+      color: #dc2626;
+      
+      .mat-icon {
+        color: #dc2626;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .account-card {
+    .mat-mdc-card-header {
+      padding: 1rem 1rem 0;
+      
+      .account-avatar {
+        .mat-icon {
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+      
+      .account-title {
+        .account-type {
+          font-size: 1rem;
+        }
+      }
+    }
+    
+    .mat-mdc-card-content {
+      padding: 1rem;
+      
+      .balance-section {
+        margin-bottom: 1rem;
+        
+        .balance-amount {
+          font-size: 1.5rem;
+        }
+      }
+    }
+    
+    .mat-mdc-card-actions {
+      &.card-bottom-actions {
+        padding: 0 1rem 1rem;
+      }
+    }
+  }
+}
+
+// Utility classes
+.text-green-600 {
+  color: #059669;
+}
+
+.text-red-600 {
+  color: #dc2626;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}

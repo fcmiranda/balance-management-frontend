@@ -1,0 +1,140 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+
+  mat-card-header {
+    text-align: center;
+    padding-bottom: 20px;
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1976d2;
+
+      mat-icon {
+        font-size: 2rem;
+      }
+    }
+
+    mat-card-subtitle {
+      margin-top: 8px;
+      color: #666;
+    }
+  }
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  .checkbox-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    mat-checkbox {
+      font-size: 0.9rem;
+    }
+
+    .terms-link {
+      color: #1976d2;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    mat-error {
+      font-size: 0.8rem;
+      color: #f44336;
+      margin-top: 5px;
+    }
+  }
+
+  .form-actions {
+    margin-top: 20px;
+
+    button {
+      height: 48px;
+      font-size: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      .spinner {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.card-actions {
+  text-align: center;
+  padding: 20px;
+
+  p {
+    margin: 0;
+    color: #666;
+  }
+
+  .login-link {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
+  }
+
+  .register-card {
+    mat-card-header {
+      mat-card-title {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+// Global snackbar styles
+:host ::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}

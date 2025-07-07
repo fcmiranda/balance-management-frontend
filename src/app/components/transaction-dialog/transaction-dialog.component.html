@@ -1,0 +1,109 @@
+<div class="transaction-dialog">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon [color]="buttonColor">{{ icon }}</mat-icon>
+    {{ title }}
+  </h2>
+  
+  <div mat-dialog-content class="dialog-content">
+    <div class="account-info mb-4">
+      <p class="text-sm text-gray-600 mb-1">Account Number</p>
+      <p class="font-mono text-lg">{{ data.accountNumber }}</p>
+      <p class="text-sm text-gray-600 mt-2">
+        Current Balance: <span class="font-semibold">{{ formatCurrency(data.currentBalance) }}</span>
+      </p>
+    </div>
+    
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Amount</mat-label>
+        <input 
+          matInput 
+          type="number" 
+          step="0.01" 
+          min="0.01"
+          [max]="maxAmount"
+          formControlName="amount"
+          placeholder="0.00"
+          [disabled]="loading"
+        >
+        <span matPrefix>$&nbsp;</span>
+        <mat-icon matSuffix color="primary">attach_money</mat-icon>
+        <mat-error>{{ getAmountError() }}</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Description (Optional)</mat-label>
+        <textarea 
+          matInput 
+          formControlName="description"
+          rows="2"
+          placeholder="Add a note about this transaction..."
+          [disabled]="loading"
+        ></textarea>
+        <mat-hint align="end">
+          {{ transactionForm.get('description')?.value?.length || 0 }}/255
+        </mat-hint>
+      </mat-form-field>
+      
+      @if (data.type === 'withdraw') {
+        <div class="warning-message">
+          <mat-icon color="warn">warning</mat-icon>
+          <span>
+            Ensure you have sufficient funds. 
+            Maximum withdrawal: {{ formatCurrency(maxAmount) }}
+          </span>
+        </div>
+      }
+      
+      <div class="transaction-preview">
+        <h4 class="font-semibold mb-2">Transaction Preview</h4>
+        <div class="preview-grid">
+          <div class="preview-item">
+            <span class="label">Transaction Type:</span>
+            <span class="value capitalize">{{ data.type }}</span>
+          </div>
+          <div class="preview-item">
+            <span class="label">Amount:</span>
+            <span class="value" [class]="data.type === 'deposit' ? 'text-green-600' : 'text-red-600'">
+              {{ data.type === 'deposit' ? '+' : '-' }}{{ formatCurrency(transactionForm.get('amount')?.value || 0) }}
+            </span>
+          </div>
+          <div class="preview-item">
+            <span class="label">New Balance:</span>
+            <span class="value font-semibold">
+              {{ formatCurrency(
+                data.currentBalance + 
+                (data.type === 'deposit' ? 1 : -1) * 
+                (transactionForm.get('amount')?.value || 0)
+              ) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      type="button" 
+      (click)="onCancel()"
+      [disabled]="loading"
+    >
+      Cancel
+    </button>
+    
+    <button 
+      mat-raised-button 
+      [color]="buttonColor"
+      type="submit"
+      [disabled]="!transactionForm.valid || loading"
+      (click)="onSubmit()"
+    >
+      @if (loading) {
+        <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+      }
+      {{ buttonText }}
+    </button>
+  </div>
+</div>

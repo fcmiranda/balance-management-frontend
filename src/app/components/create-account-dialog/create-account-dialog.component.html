@@ -1,0 +1,114 @@
+<div class="create-account-dialog">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon color="primary">account_balance</mat-icon>
+    Create New Account
+  </h2>
+  
+  <div mat-dialog-content class="dialog-content">
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Account Type</mat-label>
+        <mat-select formControlName="type" [disabled]="loading">
+          @for (accountType of accountTypes; track accountType.value) {
+            <mat-option [value]="accountType.value">
+              <div class="account-type-option">
+                <div class="account-type-label">{{ accountType.label }}</div>
+                <div class="account-type-description">{{ accountType.description }}</div>
+              </div>
+            </mat-option>
+          }
+        </mat-select>
+        <mat-icon matSuffix>account_balance_wallet</mat-icon>
+        <mat-error *ngIf="accountForm.get('type')?.hasError('required')">
+          Please select an account type
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Initial Deposit</mat-label>
+        <input 
+          matInput 
+          type="number" 
+          step="0.01" 
+          min="0"
+          formControlName="initialDeposit"
+          placeholder="0.00"
+          [disabled]="loading"
+        >
+        <span matPrefix>$&nbsp;</span>
+        <mat-icon matSuffix color="primary">attach_money</mat-icon>
+        <mat-hint>Optional - You can add funds later</mat-hint>
+        <mat-error *ngIf="accountForm.get('initialDeposit')?.hasError('min')">
+          Amount must be greater than or equal to $0.00
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Description (Optional)</mat-label>
+        <textarea 
+          matInput 
+          formControlName="description"
+          rows="2"
+          placeholder="Add a note about this account..."
+          [disabled]="loading"
+        ></textarea>
+        <mat-hint align="end">
+          {{ accountForm.get('description')?.value?.length || 0 }}/255
+        </mat-hint>
+      </mat-form-field>
+      
+      @if (getSelectedAccountType()) {
+        <div class="account-preview">
+          <h4 class="font-semibold mb-2">Account Preview</h4>
+          <div class="preview-card">
+            <div class="preview-item">
+              <mat-icon color="primary">{{ getSelectedAccountType()?.value === 'checking' ? 'credit_card' : 
+                                           getSelectedAccountType()?.value === 'savings' ? 'savings' : 
+                                           'business' }}</mat-icon>
+              <div class="preview-details">
+                <div class="preview-label">{{ getSelectedAccountType()?.label }}</div>
+                <div class="preview-description">{{ getSelectedAccountType()?.description }}</div>
+              </div>
+            </div>
+            
+            <div class="preview-item">
+              <span class="label">Initial Balance:</span>
+              <span class="value">{{ formatCurrency(accountForm.get('initialDeposit')?.value || 0) }}</span>
+            </div>
+            
+            @if (accountForm.get('description')?.value) {
+              <div class="preview-item">
+                <span class="label">Description:</span>
+                <span class="value">{{ accountForm.get('description')?.value }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </form>
+  </div>
+  
+  <div mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      type="button" 
+      (click)="onCancel()"
+      [disabled]="loading"
+    >
+      Cancel
+    </button>
+    
+    <button 
+      mat-raised-button 
+      color="primary"
+      type="submit"
+      [disabled]="!accountForm.valid || loading"
+      (click)="onSubmit()"
+    >
+      @if (loading) {
+        <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+      }
+      Create Account
+    </button>
+  </div>
+</div>
