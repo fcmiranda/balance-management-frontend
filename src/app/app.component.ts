@@ -1,24 +1,45 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [
+    RouterOutlet, 
+    CommonModule, 
+    MatToolbarModule, 
+    MatButtonModule, 
+    MatIconModule
+  ],
   template: `
     <div class="app-container">
-      <header class="app-header">
-        <h1>{{ title }}</h1>
-        <nav>
-          <a routerLink="/" class="nav-link">Home</a>
+      <mat-toolbar color="primary" class="app-header">
+        <span>{{ title }}</span>
+        <span class="spacer"></span>
+        <nav class="nav-buttons">
+          <a mat-button routerLink="/" class="nav-link">
+            <mat-icon>home</mat-icon>
+            Home
+          </a>
+          <a mat-button routerLink="/showcase" class="nav-link">
+            <mat-icon>palette</mat-icon>
+            Showcase
+          </a>
         </nav>
-      </header>
+      </mat-toolbar>
+      
       <main class="app-main">
         <router-outlet></router-outlet>
       </main>
+      
       <footer class="app-footer">
-        <p>&copy; 2025 Balance Management System</p>
+        <mat-toolbar color="accent">
+          <span class="footer-text">&copy; 2025 Balance Management System</span>
+        </mat-toolbar>
       </footer>
     </div>
   `,

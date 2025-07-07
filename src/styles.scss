@@ -1,41 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@use '@angular/material' as mat;
+@import "tailwind-import.css";
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Create the Material 18 theme with correct syntax
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Roboto',
+    plain-family: 'Roboto',
+  ),
+  density: (
+    scale: -1,
+  ),
+));
+
+// Apply the theme to all Material components (wrapped in html selector for M3 compatibility)
+html {
+  @include mat.all-component-themes($theme);
 }
 
-.card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+/* Global styles */
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
+// Fix for Material & Tailwind combination
+.mat-mdc-notch-piece {
   border: none;
-  cursor: pointer;
-  font-size: 16px;
 }
 
-.btn:hover {
-  background-color: #0056b3;
+// Custom Material component styles
+.mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.btn-secondary {
-  background-color: #6c757d;
+.mat-card {
+  margin-bottom: 1rem;
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
+.mat-raised-button, .mat-flat-button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }

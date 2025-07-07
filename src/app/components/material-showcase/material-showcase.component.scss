@@ -1,0 +1,173 @@
+.showcase-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.showcase-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.showcase-tabs {
+  margin-bottom: 30px;
+
+  .tab-content {
+    padding: 20px 0;
+  }
+}
+
+// Form styles
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    mat-radio-button {
+      margin-bottom: 10px;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+// Button styles
+.button-section {
+  margin-bottom: 30px;
+
+  h3 {
+    color: #1976d2;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+
+    button {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// Progress styles
+.progress-section {
+  margin-bottom: 30px;
+
+  h3 {
+    color: #1976d2;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  .progress-group {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .progress-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    mat-progress-bar {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+}
+
+// Expansion panel styles
+mat-accordion {
+  mat-expansion-panel {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    mat-expansion-panel-header {
+      mat-panel-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        
+        mat-icon {
+          color: #1976d2;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .showcase-container {
+    padding: 16px;
+  }
+  
+  .form-container {
+    max-width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+
+    button {
+      width: 100%;
+      max-width: 200px;
+    }
+  }
+
+  .progress-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase-tabs {
+    .mat-tab-label {
+      font-size: 0.9rem;
+    }
+  }
+}

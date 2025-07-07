@@ -1,0 +1,38 @@
+// Custom Material theme for Balance Management App
+@use '@angular/material' as mat;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define the primary, accent, and warn palettes
+$primary: mat.define-palette(mat.$blue-palette, 600, 100, 800);
+$warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Include theme styles for all components
+@include mat.all-component-themes($theme);
+
+// Custom component styles
+.mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-card {
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mat-raised-button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
