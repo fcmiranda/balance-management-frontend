@@ -1,16 +1,6 @@
 <mat-card class="account-card" [class.compact]="compact" (click)="onViewDetails($event)">
   <mat-card-header>
-    <div mat-card-avatar class="account-avatar">
-      <mat-icon [color]="getStatusColor()">{{ getAccountIcon() }}</mat-icon>
-    </div>
-    
-    <mat-card-title class="account-title">
-      <span class="account-type">{{ account.type | titlecase }} Account</span>
-      <mat-chip [color]="getStatusColor()" selected class="status-chip">
-        {{ account.status | titlecase }}
-      </mat-chip>
-    </mat-card-title>
-    
+
     <mat-card-subtitle class="account-number">
       {{ formatAccountNumber(account.accountNumber) }}
     </mat-card-subtitle>

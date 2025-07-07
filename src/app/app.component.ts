@@ -17,21 +17,6 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   template: `
     <div class="app-container">
-      <mat-toolbar color="primary" class="app-header">
-        <span>{{ title }}</span>
-        <span class="spacer"></span>
-        <nav class="nav-buttons">
-          <a mat-button routerLink="/" class="nav-link">
-            <mat-icon>home</mat-icon>
-            Home
-          </a>
-          <a mat-button routerLink="/showcase" class="nav-link">
-            <mat-icon>palette</mat-icon>
-            Showcase
-          </a>
-        </nav>
-      </mat-toolbar>
-      
       <main class="app-main">
         <router-outlet></router-outlet>
       </main>

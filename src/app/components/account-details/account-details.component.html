@@ -23,33 +23,6 @@
       </mat-card-actions>
     </mat-card>
   } @else if (account) {
-    <!-- Header -->
-    <div class="header-section mb-6">
-      <button mat-icon-button (click)="goBack()" class="mb-4">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 class="text-2xl font-bold mb-2">Account Details</h1>
-          <p class="text-gray-600">{{ account.accountNumber }}</p>
-        </div>
-        
-        <div class="flex gap-2">
-          <button mat-raised-button color="primary" (click)="onDeposit()">
-            <mat-icon>add</mat-icon>
-            Deposit
-          </button>
-          <button mat-raised-button color="accent" (click)="onWithdraw()">
-            <mat-icon>remove</mat-icon>
-            Withdraw
-          </button>
-          <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh">
-            <mat-icon>refresh</mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Account Information -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -70,10 +43,6 @@
             </div>
             
             <div class="flex justify-between items-center">
-              <span class="text-gray-600">Status:</span>
-              <mat-chip [color]="getStatusColor(account.status || 'active')" selected>
-                {{ account.status }}
-              </mat-chip>
             </div>
             
             <div class="flex justify-between items-center">

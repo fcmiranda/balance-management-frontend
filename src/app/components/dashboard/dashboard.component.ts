@@ -17,8 +17,6 @@ import { AccountService } from '../../services/account.service';
 import { User } from '../../models/auth.model';
 import { Account } from '../../models/account.model';
 import { AccountCardComponent } from '../ui/account-card/account-card.component';
-import { CreateAccountDialogComponent } from '../create-account-dialog/create-account-dialog.component';
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -90,18 +88,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private calculateTotals() {
     this.accountCount = this.accounts.length;
     this.totalBalance = this.accounts.reduce((sum, account) => sum + account.balance, 0);
-  }
-
-  openCreateAccountDialog() {
-    const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
-      width: '400px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadDashboardData(); // Reload to show new account
-      }
-    });
   }
 
   isAdmin(): boolean {

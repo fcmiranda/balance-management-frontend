@@ -98,14 +98,6 @@ export class UserService {
     );
   }
 
-  updateUserStatus(id: number, status: 'active' | 'inactive'): Observable<User> {
-    return this.updateUser(id, { status });
-  }
-
-  updateUserRole(id: number, role: UserRole): Observable<User> {
-    return this.updateUser(id, { role });
-  }
-
   deleteUser(id: number): Observable<any> {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);

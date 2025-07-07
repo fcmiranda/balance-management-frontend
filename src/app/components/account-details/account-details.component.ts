@@ -20,7 +20,6 @@ import { MatSortModule } from '@angular/material/sort';
 // Services and Models
 import { AccountService } from '../../services/account.service';
 import { Account, Transaction } from '../../models/account.model';
-import { TransactionDialogComponent } from '../transaction-dialog/transaction-dialog.component';
 
 @Component({
   selector: 'app-account-details',
@@ -116,46 +115,6 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeposit(): void {
-    if (!this.account) return;
-
-    const dialogRef = this.dialog.open(TransactionDialogComponent, {
-      width: '400px',
-      data: {
-        type: 'deposit',
-        accountId: this.account.id,
-        accountNumber: this.account.accountNumber,
-        currentBalance: this.account.balance
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadAccountDetails();
-      }
-    });
-  }
-
-  onWithdraw(): void {
-    if (!this.account) return;
-
-    const dialogRef = this.dialog.open(TransactionDialogComponent, {
-      width: '400px',
-      data: {
-        type: 'withdraw',
-        accountId: this.account.id,
-        accountNumber: this.account.accountNumber,
-        currentBalance: this.account.balance
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadAccountDetails();
-      }
-    });
-  }
-
   onRefresh(): void {
     this.loadAccountDetails();
   }
@@ -164,18 +123,6 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard']);
   }
 
-  getStatusColor(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'active':
-        return 'primary';
-      case 'inactive':
-        return 'warn';
-      case 'suspended':
-        return 'accent';
-      default:
-        return 'primary';
-    }
-  }
 
   getTransactionTypeColor(type: string): string {
     switch (type.toLowerCase()) {

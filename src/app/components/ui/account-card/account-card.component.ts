@@ -78,19 +78,6 @@ export class AccountCardComponent {
     }
   }
 
-  getStatusColor(): string {
-    switch (this.account.status?.toLowerCase()) {
-      case 'active':
-        return 'primary';
-      case 'inactive':
-        return 'warn';
-      case 'suspended':
-        return 'accent';
-      default:
-        return 'primary';
-    }
-  }
-
   getBalanceColor(): string {
     if (this.account.balance < 0) {
       return 'text-red-600';

@@ -1,65 +1,19 @@
 <div class="container mx-auto p-4">
   <div class="header-section mb-6">
     <h1 class="text-2xl font-bold mb-4">User Management</h1>
-    
-    <!-- Filters -->
-    <mat-card class="filter-card">
-      <mat-card-content>
-        <form [formGroup]="filterForm" class="filter-form">
-          <mat-form-field appearance="outline" class="search-field">
-            <mat-label>Search users</mat-label>
-            <input matInput formControlName="search" placeholder="Name or email...">
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline">
-            <mat-label>Role</mat-label>
-            <mat-select formControlName="role">
-              <mat-option value="">All Roles</mat-option>
-              @for (role of roles; track role) {
-                <mat-option [value]="role">{{ role | titlecase }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status">
-              <mat-option value="">All Statuses</mat-option>
-              @for (status of statuses; track status) {
-                <mat-option [value]="status">{{ status | titlecase }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          
-          <div class="filter-actions">
-            <button mat-button (click)="onClearFilters()">
-              <mat-icon>clear</mat-icon>
-              Clear
-            </button>
-            <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh">
-              <mat-icon>refresh</mat-icon>
-            </button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Users</mat-card-title>
+        <mat-card-subtitle>Manage system users and their permissions</mat-card-subtitle>
+      </mat-card-header>
 
-  <!-- Data Table -->
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Users</mat-card-title>
-      <mat-card-subtitle>Manage system users and their permissions</mat-card-subtitle>
-    </mat-card-header>
-    
-    <mat-card-content>
-      @if (loading) {
+      <mat-card-content>
+        @if (loading) {
         <div class="loading-container">
           <mat-spinner diameter="40"></mat-spinner>
           <p>Loading users...</p>
         </div>
-      } @else if (error) {
+        } @else if (error) {
         <div class="error-container">
           <mat-icon color="warn">error</mat-icon>
           <p>{{ error }}</p>
@@ -68,7 +22,7 @@
             Retry
           </button>
         </div>
-      } @else {
+        } @else {
         <div class="table-container">
           <table mat-table [dataSource]="dataSource" matSort class="users-table">
             <!-- ID Column -->
@@ -107,29 +61,12 @@
               </td>
             </ng-container>
 
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let user">
-                <mat-chip [color]="getStatusColor(user.status)" selected>
-                  {{ user.status | titlecase }}
-                </mat-chip>
-              </td>
-            </ng-container>
 
             <!-- Created Date Column -->
             <ng-container matColumnDef="createdAt">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
               <td mat-cell *matCellDef="let user">
                 {{ formatDate(user.createdAt) }}
-              </td>
-            </ng-container>
-
-            <!-- Last Login Column -->
-            <ng-container matColumnDef="lastLogin">
-              <th mat-header-cell *matHeaderCellDef>Last Login</th>
-              <td mat-cell *matCellDef="let user">
-                {{ user.lastLogin ? formatDate(user.lastLogin) : 'Never' }}
               </td>
             </ng-container>
 
@@ -140,25 +77,15 @@
                 <button mat-icon-button [matMenuTriggerFor]="menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
-                
+
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item (click)="onEditUser(user)">
                     <mat-icon>edit</mat-icon>
                     <span>Edit User</span>
                   </button>
-                  
-                  <button mat-menu-item (click)="onToggleUserStatus(user)">
-                    <mat-icon>{{ user.status === 'active' ? 'block' : 'check_circle' }}</mat-icon>
-                    <span>{{ user.status === 'active' ? 'Deactivate' : 'Activate' }}</span>
-                  </button>
-                  
-                  <button mat-menu-item (click)="onChangeUserRole(user)">
-                    <mat-icon>{{ user.role === 'admin' ? 'person' : 'admin_panel_settings' }}</mat-icon>
-                    <span>Make {{ user.role === 'admin' ? 'User' : 'Admin' }}</span>
-                  </button>
-                  
+
                   <mat-divider></mat-divider>
-                  
+
                   <button mat-menu-item (click)="onDeleteUser(user)" class="delete-action">
                     <mat-icon>delete</mat-icon>
                     <span>Delete User</span>
@@ -171,14 +98,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="user-row"></tr>
           </table>
         </div>
-        
-        <mat-paginator 
-          [pageSizeOptions]="[5, 10, 25, 100]" 
-          [pageSize]="10"
-          showFirstLastButtons
-          aria-label="Select page of users">
-        </mat-paginator>
-      }
-    </mat-card-content>
-  </mat-card>
-</div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>

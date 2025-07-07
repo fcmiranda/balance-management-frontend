@@ -50,57 +50,34 @@ import { User, UserRole } from '../../../models/auth.model';
 export class AdminUserManagementComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  
   dataSource = new MatTableDataSource<User>();
   displayedColumns: string[] = [
     'id', 
     'name', 
     'email', 
     'role', 
-    'status', 
     'createdAt', 
-    'lastLogin',
     'actions'
   ];
   
-  filterForm: FormGroup;
   loading = false;
   error: string | null = null;
   
   roles: UserRole[] = ['client', 'admin'];
-  statuses = ['active', 'inactive', 'suspended'];
 
   constructor(
     private userService: UserService,
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private snackBar: MatSnackBar
   ) {
-    this.filterForm = this.fb.group({
-      search: [''],
-      role: [''],
-      status: ['']
-    });
   }
 
   ngOnInit(): void {
     this.loadUsers();
-    this.setupFilter();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  private setupFilter(): void {
-    this.filterForm.valueChanges.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.applyFilter();
-    });
   }
 
   private loadUsers(): void {
@@ -112,8 +89,6 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (users) => {
         this.dataSource.data = users;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
         this.loading = false;
       },
       error: (error) => {
@@ -127,83 +102,14 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  private applyFilter(): void {
-    const filterValues = this.filterForm.value;
-    
-    this.dataSource.filterPredicate = (user: User, filter: string) => {
-      const searchTerm = filterValues.search.toLowerCase();
-      const roleFilter = filterValues.role;
-      const statusFilter = filterValues.status;
-      
-      const matchesSearch = !searchTerm || 
-        user.name.toLowerCase().includes(searchTerm) ||
-        user.email.toLowerCase().includes(searchTerm);
-      
-      const matchesRole = !roleFilter || user.role === roleFilter;
-      const matchesStatus = !statusFilter || user.status === statusFilter;
-      
-      return matchesSearch && matchesRole && matchesStatus;
-    };
-    
-    this.dataSource.filter = 'trigger';
-  }
-
   onRefresh(): void {
     this.loadUsers();
   }
 
-  onClearFilters(): void {
-    this.filterForm.reset();
-  }
 
   onEditUser(user: User): void {
-    // TODO: Implement edit user dialog
     this.snackBar.open('Edit user functionality coming soon', 'Close', {
       duration: 2000
-    });
-  }
-
-  onToggleUserStatus(user: User): void {
-    const newStatus = user.status === 'active' ? 'inactive' : 'active';
-    
-    this.userService.updateUserStatus(user.id, newStatus).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: () => {
-        user.status = newStatus;
-        this.snackBar.open(`User ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`, 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-      },
-      error: (error) => {
-        this.snackBar.open('Failed to update user status', 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
-      }
-    });
-  }
-
-  onChangeUserRole(user: User): void {
-    const newRole = user.role === 'admin' ? 'client' : 'admin';
-    
-    this.userService.updateUserRole(user.id, newRole).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: () => {
-        user.role = newRole;
-        this.snackBar.open(`User role changed to ${newRole}`, 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-      },
-      error: (error) => {
-        this.snackBar.open('Failed to update user role', 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
-      }
     });
   }
 
@@ -231,19 +137,6 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
   getRoleColor(role: UserRole): string {
     return role === 'admin' ? 'primary' : 'accent';
-  }
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'active':
-        return 'primary';
-      case 'inactive':
-        return 'warn';
-      case 'suspended':
-        return 'accent';
-      default:
-        return 'primary';
-    }
   }
 
   formatDate(date: string): string {
