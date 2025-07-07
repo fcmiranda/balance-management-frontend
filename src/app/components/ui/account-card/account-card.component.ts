@@ -27,7 +27,6 @@ import { Account } from '../../../models/account.model';
     MatDividerModule
   ],
   templateUrl: './account-card.component.html',
-  styleUrls: ['./account-card.component.scss']
 })
 export class AccountCardComponent {
   @Input() account!: Account;

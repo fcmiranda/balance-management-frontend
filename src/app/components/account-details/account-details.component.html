@@ -4,14 +4,14 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else if (error) {
-    <mat-card class="error-card">
-      <mat-card-content>
+    <mat-card class="bg-red-50 border border-red-200">
+      <mat-card-content class="p-6">
         <div class="flex items-center gap-2 text-red-600">
           <mat-icon>error</mat-icon>
           <span>{{ error }}</span>
         </div>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions class="px-6 pb-6">
         <button mat-button (click)="onRefresh()" color="primary">
           <mat-icon>refresh</mat-icon>
           Retry
@@ -26,9 +26,9 @@
 
     <!-- Account Information -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Account Information</mat-card-title>
+      <mat-card class="mb-6 rounded-xl shadow-md">
+        <mat-card-header class="p-6 pb-0">
+          <mat-card-title class="text-xl font-semibold mb-2">Account Information</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="space-y-4">
@@ -58,11 +58,11 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Balance Information</mat-card-title>
+      <mat-card class="mb-6 rounded-xl shadow-md">
+        <mat-card-header class="p-6 pb-0">
+          <mat-card-title class="text-xl font-semibold mb-2">Balance Information</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content class="p-6">
           <div class="text-center">
             <div class="text-3xl font-bold text-primary mb-2">
               {{ formatCurrency(account.balance) }}
@@ -87,12 +87,12 @@
     </div>
 
     <!-- Transactions -->
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Transaction History</mat-card-title>
-        <mat-card-subtitle>Recent account activity</mat-card-subtitle>
+    <mat-card class="mb-6 rounded-xl shadow-md">
+      <mat-card-header class="p-6 pb-0">
+        <mat-card-title class="text-xl font-semibold mb-2">Transaction History</mat-card-title>
+        <mat-card-subtitle class="text-gray-500 text-sm">Recent account activity</mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content class="p-6">
         @if (transactions.length === 0) {
           <div class="text-center py-8">
             <mat-icon class="text-gray-400 text-4xl mb-2">receipt_long</mat-icon>

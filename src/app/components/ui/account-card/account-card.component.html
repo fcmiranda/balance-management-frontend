@@ -1,28 +1,35 @@
-<mat-card class="account-card" [class.compact]="compact" (click)="onViewDetails($event)">
-  <mat-card-header>
-
-    <mat-card-subtitle class="account-number">
-      {{ formatAccountNumber(account.accountNumber) }}
-    </mat-card-subtitle>
+<mat-card class="cursor-pointer hover:shadow-lg transition-shadow" [class.opacity-75]="compact" (click)="onViewDetails($event)">
+  <mat-card-header class="flex justify-between items-start">
+    <div class="flex items-center gap-3">
+      <div class="bg-blue-100 p-2 rounded-full">
+        <mat-icon class="text-blue-600" [innerHTML]="getAccountIcon()"></mat-icon>
+      </div>
+      <div>
+        <mat-card-title class="text-lg font-semibold mb-1">{{ account.type | titlecase }} Account</mat-card-title>
+        <mat-card-subtitle class="text-sm text-gray-500 font-mono">
+          {{ formatAccountNumber(account.accountNumber) }}
+        </mat-card-subtitle>
+      </div>
+    </div>
     
     @if (showActions) {
-      <div class="card-actions">
-        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+      <div class="flex items-center">
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" class="hover:bg-gray-100">
           <mat-icon>more_vert</mat-icon>
         </button>
         
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onViewDetails($event)">
+          <button mat-menu-item (click)="onViewDetails($event)" class="flex items-center gap-3">
             <mat-icon>visibility</mat-icon>
             <span>View Details</span>
           </button>
-          <button mat-menu-item (click)="onEditAccount($event)">
+          <button mat-menu-item (click)="onEditAccount($event)" class="flex items-center gap-3">
             <mat-icon>edit</mat-icon>
             <span>Edit Account</span>
           </button>
           <mat-divider></mat-divider>
-          <button mat-menu-item (click)="onDeleteAccount($event)" class="delete-action">
-            <mat-icon>delete</mat-icon>
+          <button mat-menu-item (click)="onDeleteAccount($event)" class="flex items-center gap-3 text-red-600">
+            <mat-icon class="text-red-600">delete</mat-icon>
             <span>Delete Account</span>
           </button>
         </mat-menu>
@@ -30,38 +37,39 @@
     }
   </mat-card-header>
   
-  <mat-card-content>
-    <div class="balance-section">
-      <div class="balance-label">Current Balance</div>
-      <div class="balance-amount" [class]="getBalanceColor()">
+  <mat-card-content class="px-6 pb-4">
+    <div class="text-center mb-6">
+      <div class="text-sm text-gray-500 mb-2">Current Balance</div>
+      <div class="text-2xl font-bold" [class]="getBalanceColor()">
         {{ formatCurrency(account.balance) }}
       </div>
     </div>
     
     @if (!compact) {
-      <div class="account-details">
-        <div class="detail-item">
-          <span class="label">Created:</span>
-          <span class="value">{{ account.createdAt | date:'shortDate' }}</span>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">Created:</span>
+          <span class="text-sm font-medium">{{ account.createdAt | date:'shortDate' }}</span>
         </div>
         
-        <div class="detail-item">
-          <span class="label">Last Activity:</span>
-          <span class="value">{{ account.updatedAt | date:'shortDate' }}</span>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-500">Last Activity:</span>
+          <span class="text-sm font-medium">{{ account.updatedAt | date:'shortDate' }}</span>
         </div>
       </div>
     }
   </mat-card-content>
   
   @if (showActions && !compact) {
-    <mat-card-actions class="card-bottom-actions">
+    <mat-card-actions class="px-4 pb-4 flex gap-2 justify-between">
       <button 
         mat-button 
         color="primary" 
         (click)="onDeposit($event)"
         [disabled]="account.status !== 'active'"
+        class="flex-1 flex items-center justify-center gap-1"
       >
-        <mat-icon>add</mat-icon>
+        <mat-icon class="text-lg">add</mat-icon>
         Deposit
       </button>
       
@@ -70,16 +78,18 @@
         color="accent" 
         (click)="onWithdraw($event)"
         [disabled]="account.status !== 'active' || account.balance <= 0"
+        class="flex-1 flex items-center justify-center gap-1"
       >
-        <mat-icon>remove</mat-icon>
+        <mat-icon class="text-lg">remove</mat-icon>
         Withdraw
       </button>
       
       <button 
         mat-button 
         (click)="onViewDetails($event)"
+        class="flex-1 flex items-center justify-center gap-1"
       >
-        <mat-icon>arrow_forward</mat-icon>
+        <mat-icon class="text-lg">arrow_forward</mat-icon>
         Details
       </button>
     </mat-card-actions>

@@ -32,8 +32,7 @@ import { AccountCardComponent } from '../ui/account-card/account-card.component'
     MatTooltipModule,
     AccountCardComponent
   ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

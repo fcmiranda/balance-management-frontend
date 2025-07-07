@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -19,6 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Services and Models
 import { UserService } from '../../../services/user.service';
@@ -30,6 +32,7 @@ import { User, UserRole } from '../../../models/auth.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterModule,
     MatCardModule,
     MatTableModule,
     MatPaginatorModule,
@@ -42,10 +45,10 @@ import { User, UserRole } from '../../../models/auth.model';
     MatChipsModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTooltipModule
   ],
   templateUrl: './admin-user-management.component.html',
-  styleUrls: ['./admin-user-management.component.scss']
 })
 export class AdminUserManagementComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -67,7 +70,8 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
   }
 
@@ -108,9 +112,7 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
 
   onEditUser(user: User): void {
-    this.snackBar.open('Edit user functionality coming soon', 'Close', {
-      duration: 2000
-    });
+    this.router.navigate(['/admin/users/edit', user.id]);
   }
 
   onDeleteUser(user: User): void {

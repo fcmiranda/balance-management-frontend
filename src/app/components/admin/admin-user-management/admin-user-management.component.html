@@ -1,30 +1,52 @@
-<div class="container mx-auto p-4">
-  <div class="header-section mb-6">
-    <h1 class="text-2xl font-bold mb-4">User Management</h1>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Users</mat-card-title>
-        <mat-card-subtitle>Manage system users and their permissions</mat-card-subtitle>
+<div class="max-w-6xl mx-auto p-4">
+  <div class="mb-8">
+    <div class="flex justify-between items-start mb-6 flex-wrap gap-4">
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold mb-2 text-gray-800">User Management</h1>
+        <p class="text-gray-700">Manage system users and their permissions</p>
+      </div>
+      <div class="flex-shrink-0">
+        <button 
+          mat-raised-button
+          routerLink="/admin/users/new"
+          class="px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+        >
+          Create User
+        </button>
+      </div>
+    </div>
+    
+    <mat-card class="rounded-xl shadow-md">
+      <mat-card-header class="p-6 pb-0">
+        <mat-card-title class="text-xl font-semibold">Users</mat-card-title>
+        <mat-card-subtitle class="text-gray-500">All registered users in the system</mat-card-subtitle>
       </mat-card-header>
 
-      <mat-card-content>
+      <mat-card-content class="p-6">
         @if (loading) {
-        <div class="loading-container">
+        <div class="flex flex-col items-center justify-center py-12 text-center">
           <mat-spinner diameter="40"></mat-spinner>
-          <p>Loading users...</p>
+          <p class="mt-4 text-gray-600">Loading users...</p>
         </div>
         } @else if (error) {
-        <div class="error-container">
-          <mat-icon color="warn">error</mat-icon>
-          <p>{{ error }}</p>
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <mat-icon class="text-red-600">error</mat-icon>
+          <p class="text-red-600 mb-4">{{ error }}</p>
           <button mat-button color="primary" (click)="onRefresh()">
             <mat-icon>refresh</mat-icon>
             Retry
           </button>
         </div>
         } @else {
-        <div class="table-container">
-          <table mat-table [dataSource]="dataSource" matSort class="users-table">
+        <div class="flex justify-end py-4 border-b border-gray-200">
+          <div class="flex gap-2">
+            <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh users">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table mat-table [dataSource]="dataSource" matSort class="w-full mt-4">
             <!-- ID Column -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -102,3 +124,4 @@
       </mat-card-content>
     </mat-card>
   </div>
+</div>

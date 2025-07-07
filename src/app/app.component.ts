@@ -16,16 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   template: `
-    <div class="app-container">
-      <main class="app-main">
+    <div class="flex flex-col min-h-screen">
+      <main class="flex-1 bg-gray-400">
         <router-outlet></router-outlet>
       </main>
-      
-      <footer class="app-footer">
-        <mat-toolbar color="accent">
-          <span class="footer-text">&copy; 2025 Balance Management System</span>
-        </mat-toolbar>
-      </footer>
     </div>
   `,
   styleUrls: ['./app.component.scss']

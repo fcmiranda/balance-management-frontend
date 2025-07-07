@@ -1,107 +1,18 @@
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
+// Login component styles - using Tailwind CSS
+// Minimal custom styles only when Tailwind is insufficient
 
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-
-  mat-card-header {
-    text-align: center;
-    padding-bottom: 20px;
-
-    mat-card-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #1976d2;
-
-      mat-icon {
-        font-size: 2rem;
-      }
-    }
-
-    mat-card-subtitle {
-      margin-top: 8px;
-      color: #666;
-    }
-  }
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  .full-width {
-    width: 100%;
-  }
-
-  .form-actions {
-    margin-top: 20px;
-
-    button {
-      height: 48px;
-      font-size: 1rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-
-      .spinner {
-        margin-right: 8px;
-      }
-    }
-  }
-}
-
-.card-actions {
-  text-align: center;
-  padding: 20px;
-
-  p {
-    margin: 0;
-    color: #666;
-  }
-
-  .register-link {
-    color: #1976d2;
-    text-decoration: none;
-    font-weight: 500;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-// Responsive design
+// Responsive design for mobile
 @media (max-width: 480px) {
-  .login-container {
-    padding: 10px;
+  .mat-mdc-card {
+    margin: 0 0.5rem;
   }
-
-  .login-card {
-    mat-card-header {
-      mat-card-title {
-        font-size: 1.5rem;
-      }
-    }
+  
+  mat-card-title {
+    font-size: 1.5rem;
   }
 }
 
-// Global snackbar styles (to be added to styles.scss)
+// Snackbar styles
 :host ::ng-deep {
   .success-snackbar {
     background-color: #4caf50 !important;

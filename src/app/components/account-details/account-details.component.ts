@@ -39,7 +39,6 @@ import { Account, Transaction } from '../../models/account.model';
     MatSortModule
   ],
   templateUrl: './account-details.component.html',
-  styleUrls: ['./account-details.component.scss']
 })
 export class AccountDetailsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
