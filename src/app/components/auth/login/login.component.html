@@ -4,39 +4,36 @@
             <mat-card-title class="flex items-center justify-center gap-2.5 text-3xl font-semibold text-blue-600">
                 Login
             </mat-card-title>
-            <mat-card-subtitle class="mt-2 text-gray-600">
-                Access your balance management account
-            </mat-card-subtitle>
         </mat-card-header>
 
-        <mat-card-content>
+        <mat-card-content class="mt-10">
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
                 <mat-form-field appearance="outline" class="w-full">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email" placeholder="Enter your email"
+                    <input matInput type="email" formControlName="email" placeholder="Digite seu email"
                         [class.mat-form-field-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
                     <mat-icon matSuffix>email</mat-icon>
                     <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-                        Email is required
+                        Email é obrigatório
                     </mat-error>
                     <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-                        Please enter a valid email address
+                        Por favor, digite um endereço de email válido
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Senha</mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
-                        placeholder="Enter your password"
+                        placeholder="Digite sua senha"
                         [class.mat-form-field-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
                     <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
                         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-                        Password is required
+                        Senha é obrigatória
                     </mat-error>
                     <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-                        Password must be at least 6 characters long
+                        Senha deve ter pelo menos 6 caracteres
                     </mat-error>
                 </mat-form-field>
 
@@ -45,7 +42,7 @@
                         class="w-full h-12 text-base font-medium flex items-center justify-center gap-2">
                         <mat-spinner *ngIf="loading" diameter="20" class="mr-2"></mat-spinner>
                         <mat-icon *ngIf="!loading">login</mat-icon>
-                        {{ loading ? 'Logging in...' : 'Login' }}
+                        {{ loading ? 'Entrando...' : 'Entrar' }}
                     </button>
                 </div>
             </form>
@@ -53,9 +50,9 @@
 
         <mat-card-actions class="justify-center">
             <div class="text-center p-5 justify-center">
-                <p class="m-0 text-gray-600">Don't have an account?
-                    <a routerLink="/register" class="text-blue-600 no-underline font-medium hover:underline">Register
-                        here</a>
+                <p class="m-0 text-gray-600">Não tem uma conta?
+                    <a routerLink="/register" class="text-blue-600 no-underline font-medium hover:underline">Cadastre-se
+                        aqui</a>
                 </p>
             </div>
         </mat-card-actions>

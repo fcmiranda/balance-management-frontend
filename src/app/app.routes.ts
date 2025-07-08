@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AdminUserManagementComponent } from './components/admin/admin-user-management/admin-user-management.component';
 import { UserFormComponent } from './components/admin/user-form/user-form.component';
 import { UserAccountsComponent } from './components/user/user-accounts/user-accounts.component';
@@ -12,11 +11,6 @@ import { ClientGuard } from './guards/client.guard';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { 
-    path: 'dashboard', 
-    component: DashboardComponent,
-    canActivate: [AuthGuard]
-  },
   { 
     path: 'accounts', 
     component: UserAccountsComponent,

@@ -125,7 +125,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.snackBar.open('Failed to load user', 'Close', {
+        this.snackBar.open('Falha ao carregar usuário', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -177,14 +177,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe({
       next: (user) => {
-        this.snackBar.open('User created successfully!', 'Close', {
+        this.snackBar.open('Usuário criado com sucesso!', 'Fechar', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
         this.router.navigate(['/admin/users']);
       },
       error: (error) => {
-        this.snackBar.open(error.error?.message || 'Failed to create user', 'Close', {
+        this.snackBar.open(error.error?.message || 'Falha ao criar usuário', 'Fechar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -213,14 +213,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe({
       next: (user) => {
-        this.snackBar.open('User updated successfully!', 'Close', {
+        this.snackBar.open('Usuário atualizado com sucesso!', 'Fechar', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
         this.router.navigate(['/admin/users']);
       },
       error: (error) => {
-        this.snackBar.open(error.error?.message || 'Failed to update user', 'Close', {
+        this.snackBar.open(error.error?.message || 'Falha ao atualizar usuário', 'Fechar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -245,13 +245,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   get pageTitle(): string {
-    return this.isEditMode ? 'Edit User' : 'Create New User';
+    return this.isEditMode ? 'Editar Usuário' : 'Criar Novo Usuário';
   }
 
   get submitButtonText(): string {
     if (this.submitting) {
-      return this.isEditMode ? 'Updating...' : 'Creating...';
+      return this.isEditMode ? 'Atualizando...' : 'Criando...';
     }
-    return this.isEditMode ? 'Update User' : 'Create User';
+    return this.isEditMode ? 'Atualizar Usuário' : 'Criar Usuário';
   }
 }

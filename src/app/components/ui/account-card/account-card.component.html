@@ -5,7 +5,7 @@
         <mat-icon class="text-blue-600" [innerHTML]="getAccountIcon()"></mat-icon>
       </div>
       <div>
-        <mat-card-title class="text-lg font-semibold mb-1">{{ account.type | titlecase }} Account</mat-card-title>
+        <mat-card-title class="text-lg font-semibold mb-1">Conta {{ account.type | titlecase }}</mat-card-title>
         <mat-card-subtitle class="text-sm text-gray-500 font-mono">
           {{ formatAccountNumber(account.accountNumber) }}
         </mat-card-subtitle>
@@ -21,16 +21,16 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="onViewDetails($event)" class="flex items-center gap-3">
             <mat-icon>visibility</mat-icon>
-            <span>View Details</span>
+            <span>Ver Detalhes</span>
           </button>
           <button mat-menu-item (click)="onEditAccount($event)" class="flex items-center gap-3">
             <mat-icon>edit</mat-icon>
-            <span>Edit Account</span>
+            <span>Editar Conta</span>
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="onDeleteAccount($event)" class="flex items-center gap-3 text-red-600">
             <mat-icon class="text-red-600">delete</mat-icon>
-            <span>Delete Account</span>
+            <span>Excluir Conta</span>
           </button>
         </mat-menu>
       </div>
@@ -39,7 +39,7 @@
   
   <mat-card-content class="px-6 pb-4">
     <div class="text-center mb-6">
-      <div class="text-sm text-gray-500 mb-2">Current Balance</div>
+      <div class="text-sm text-gray-500 mb-2">Saldo Atual</div>
       <div class="text-2xl font-bold" [class]="getBalanceColor()">
         {{ formatCurrency(account.balance) }}
       </div>
@@ -48,12 +48,12 @@
     @if (!compact) {
       <div class="space-y-3">
         <div class="flex justify-between items-center">
-          <span class="text-sm text-gray-500">Created:</span>
+          <span class="text-sm text-gray-500">Criada:</span>
           <span class="text-sm font-medium">{{ account.createdAt | date:'shortDate' }}</span>
         </div>
         
         <div class="flex justify-between items-center">
-          <span class="text-sm text-gray-500">Last Activity:</span>
+          <span class="text-sm text-gray-500">Última Atividade:</span>
           <span class="text-sm font-medium">{{ account.updatedAt | date:'shortDate' }}</span>
         </div>
       </div>
@@ -70,7 +70,7 @@
         class="flex-1 flex items-center justify-center gap-1"
       >
         <mat-icon class="text-lg">add</mat-icon>
-        Deposit
+        Depositar
       </button>
       
       <button 
@@ -80,8 +80,8 @@
         [disabled]="account.status !== 'active' || account.balance <= 0"
         class="flex-1 flex items-center justify-center gap-1"
       >
-        <mat-icon class="text-lg">remove</mat-icon>
-        Withdraw
+        <mat-icon class="text-lg">payments</mat-icon>
+        Sacar
       </button>
       
       <button 
@@ -90,7 +90,7 @@
         class="flex-1 flex items-center justify-center gap-1"
       >
         <mat-icon class="text-lg">arrow_forward</mat-icon>
-        Details
+        Detalhes
       </button>
     </mat-card-actions>
   }

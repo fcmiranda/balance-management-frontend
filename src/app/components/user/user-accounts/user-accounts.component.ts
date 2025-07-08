@@ -12,11 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 
 // Services and Models
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { Account } from '../../../models/account.model';
+import { TransactionDialogComponent } from '../../ui/transaction-dialog/transaction-dialog.component';
 
 @Component({
   selector: 'app-user-accounts',
@@ -39,9 +41,11 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
   
   dataSource = new MatTableDataSource<Account>();
   displayedColumns: string[] = [
+    'id',
     'accountNumber', 
     'balance', 
-    'createdAt'
+    'createdAt',
+    'actions'
   ];
   
   accounts: Account[] = [];
@@ -52,7 +56,8 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -77,9 +82,9 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Failed to load accounts';
+        this.error = 'Falha ao carregar contas';
         this.loading = false;
-        this.snackBar.open('Failed to load accounts', 'Close', {
+        this.snackBar.open('Falha ao carregar contas', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -96,14 +101,14 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe({
       next: (newAccount) => {
-        this.snackBar.open('Account created successfully!', 'Close', {
+        this.snackBar.open('Conta criada com sucesso!', 'Fechar', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
         this.loadAccounts();
       },
       error: (error) => {
-        this.snackBar.open('Failed to create account', 'Close', {
+        this.snackBar.open('Falha ao criar conta', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -121,9 +126,9 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
   }
 
   formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'BRL'
     }).format(amount);
   }
 
@@ -146,6 +151,19 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getAccountIcon(account: Account): string {
+    switch (account.type) {
+      case 'checking':
+        return 'credit_card';
+      case 'savings':
+        return 'savings';
+      case 'business':
+        return 'business';
+      default:
+        return 'account_balance_wallet';
+    }
+  }
+
   onLogout(): void {
     this.authService.logout().subscribe({
       next: () => {
@@ -157,5 +175,77 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  onDeposit(account: Account): void {
+    this.openTransactionDialog(account, 'deposit');
+  }
+
+  onWithdraw(account: Account): void {
+    this.openTransactionDialog(account, 'withdraw');
+  }
+
+  private openTransactionDialog(account: Account, type: 'withdraw' | 'deposit'): void {
+    const dialogRef = this.dialog.open(TransactionDialogComponent, {
+      width: '500px',
+      data: {
+        title: type === 'deposit' ? 'Depositar Fundos' : 'Sacar Fundos',
+        message: `${type === 'deposit' ? 'Adicionar fundos à' : 'Sacar fundos da'} sua conta ${this.formatAccountNumber(account.accountNumber)}`,
+        type: type,
+        accountNumber: account.accountNumber
+      },
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.processTransaction(result, account.id, type);
+      }
+    });
+  }
+
+  private processTransaction(transaction: { amount: number }, accountId: number, type: 'withdraw' | 'deposit'): void {
+    
+    if (type === 'withdraw') {
+      this.accountService.withdraw(accountId, transaction.amount).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedAccount) => {
+          this.snackBar.open(
+            `Saque de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
+            'Fechar', 
+            { duration: 5000, panelClass: ['success-snackbar'] }
+          );
+          this.loadAccounts();
+        },
+        error: (error) => {
+          this.snackBar.open(
+            error.error?.message || 'Falha no saque', 
+            'Fechar', 
+            { duration: 5000, panelClass: ['error-snackbar'] }
+          );
+        }
+      });
+    } else if (type === 'deposit') {
+      this.accountService.deposit(accountId, transaction.amount).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedAccount) => {
+          this.snackBar.open(
+            `Depósito de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
+            'Fechar', 
+            { duration: 5000, panelClass: ['success-snackbar'] }
+          );
+          this.loadAccounts();
+        },
+        error: (error) => {
+          this.snackBar.open(
+            error.error?.message || 'Falha no depósito', 
+            'Fechar', 
+            { duration: 5000, panelClass: ['error-snackbar'] }
+          );
+        }
+      });
+    }
   }
 }

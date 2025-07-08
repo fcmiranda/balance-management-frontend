@@ -50,8 +50,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      role: ['client', [Validators.required]],
-      acceptTerms: [false, [Validators.requiredTrue]]
+      role: ['client', [Validators.required]]
     }, { 
       validators: this.passwordMatchValidator 
     });
@@ -90,7 +89,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const { confirmPassword, acceptTerms, ...registerData } = this.registerForm.value;
+      const { confirmPassword, ...registerData } = this.registerForm.value;
       const userData: RegisterRequest = registerData;
       
       this.authService.register(userData).subscribe({
