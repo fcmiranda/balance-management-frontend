@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Account, TransactionRequest, Transaction } from '../models/account.model';
+import { ErrorMappingService } from './error-mapping.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -22,7 +23,10 @@ export class AccountService {
   public error$ = this.errorSubject.asObservable();
   public processing$ = this.processingSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private errorMappingService: ErrorMappingService
+  ) {}
 
   getAccounts(): Observable<Account[]> {
     this.loadingSubject.next(true);
@@ -35,7 +39,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha ao carregar contas');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })
@@ -53,7 +58,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha ao carregar conta');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })
@@ -76,7 +82,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha ao criar conta');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })
@@ -96,7 +103,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha no depósito');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.processingSubject.next(false);
         }
       })
@@ -116,7 +124,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha no saque');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.processingSubject.next(false);
         }
       })
@@ -135,7 +144,8 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha ao excluir conta');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })

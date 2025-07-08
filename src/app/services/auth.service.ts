@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/auth.model';
+import { ErrorMappingService } from './error-mapping.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -19,7 +20,10 @@ export class AuthService {
   public loading$ = this.loadingSubject.asObservable();
   public error$ = this.errorSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private errorMappingService: ErrorMappingService
+  ) {
     this.initializeAuth();
   }
 
@@ -45,7 +49,8 @@ export class AuthService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha no login');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })
@@ -64,7 +69,8 @@ export class AuthService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Falha no registro');
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.errorSubject.next(errorMessage);
           this.loadingSubject.next(false);
         }
       })

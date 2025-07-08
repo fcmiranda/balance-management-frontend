@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 // Services and Models
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
+import { ErrorMappingService } from '../../../services/error-mapping.service';
 import { Account } from '../../../models/account.model';
 import { TransactionDialogComponent } from '../../ui/transaction-dialog/transaction-dialog.component';
 import { ConfirmDialogComponent } from '../../ui/confirm-dialog/confirm-dialog.component';
@@ -59,6 +60,7 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
   constructor(
     private accountService: AccountService,
     private authService: AuthService,
+    private errorMappingService: ErrorMappingService,
     private snackBar: MatSnackBar,
     private router: Router,
     private dialog: MatDialog
@@ -86,9 +88,10 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Falha ao carregar contas';
+        const errorMessage = this.errorMappingService.mapHttpError(error);
+        this.error = errorMessage;
         this.loading = false;
-        this.snackBar.open('Falha ao carregar contas', 'Fechar', {
+        this.snackBar.open(errorMessage, 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -112,7 +115,8 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
         this.loadAccounts();
       },
       error: (error) => {
-        this.snackBar.open('Falha ao criar conta', 'Fechar', {
+        const errorMessage = this.errorMappingService.mapHttpError(error);
+        this.snackBar.open(errorMessage, 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -146,7 +150,8 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
             this.loadAccounts();
           },
           error: (err) => {
-            this.snackBar.open(err.error?.message || 'Falha ao excluir conta.', 'Fechar', {
+            const errorMessage = this.errorMappingService.mapHttpError(err);
+            this.snackBar.open(errorMessage, 'Fechar', {
               duration: 3000,
               panelClass: ['error-snackbar']
             });
@@ -190,11 +195,11 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
           this.loadAccounts();
         },
         error: (error) => {
-          this.snackBar.open(
-            error.error?.message || 'Falha no saque', 
-            'Fechar', 
-            { duration: 5000, panelClass: ['error-snackbar'] }
-          );
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.snackBar.open(errorMessage, 'Fechar', { 
+            duration: 5000, 
+            panelClass: ['error-snackbar'] 
+          });
         }
       });
     } else if (type === 'deposit') {
@@ -210,11 +215,11 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
           this.loadAccounts();
         },
         error: (error) => {
-          this.snackBar.open(
-            error.error?.message || 'Falha no depósito', 
-            'Fechar', 
-            { duration: 5000, panelClass: ['error-snackbar'] }
-          );
+          const errorMessage = this.errorMappingService.mapHttpError(error);
+          this.snackBar.open(errorMessage, 'Fechar', { 
+            duration: 5000, 
+            panelClass: ['error-snackbar'] 
+          });
         }
       });
     }
