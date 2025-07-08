@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 import { User, UserRole } from '../../../models/auth.model';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../ui/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-user-management',
@@ -73,7 +74,8 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
@@ -118,25 +120,38 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   }
 
   onDeleteUser(user: User): void {
-    if (confirm(`Tem certeza que deseja excluir o usuário ${user.name}?`)) {
-      this.userService.deleteUser(user.id).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: () => {
-          this.loadUsers();
-          this.snackBar.open('Usuário excluído com sucesso', 'Fechar', {
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
-        },
-        error: (error) => {
-          this.snackBar.open('Falha ao excluir usuário', 'Fechar', {
-            duration: 3000,
-            panelClass: ['error-snackbar']
-          });
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmar exclusão',
+        message: `Tem certeza que deseja excluir o usuário ${user.name}?`,
+        confirmText: 'Excluir',
+        cancelText: 'Cancelar',
+        dialogType: 'danger'
+      } as ConfirmDialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(user.id).pipe(
+          takeUntil(this.destroy$)
+        ).subscribe({
+          next: () => {
+            this.loadUsers();
+            this.snackBar.open('Usuário excluído com sucesso', 'Fechar', {
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            });
+          },
+          error: (error) => {
+            this.snackBar.open('Falha ao excluir usuário', 'Fechar', {
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+      }
+    });
   }
 
   getRoleColor(role: UserRole): string {
@@ -144,11 +159,12 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   }
 
   formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+    const dateObj = new Date(date);
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    
+    return `${day}/${month}/${year}`;
   }
 
   onLogout(): void {
