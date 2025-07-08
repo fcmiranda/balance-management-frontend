@@ -1,65 +1,65 @@
 # Balance Management Frontend
 
-A simple Angular v18 application with Jest testing framework.
+Um aplicativo Angular v18 simples com o framework de testes Jest.
 
-## Features
+## Funcionalidades
 
-- Angular v18 with standalone components
-- Jest testing framework
-- TypeScript configuration
-- SCSS styling
-- Responsive design
-- Modern development setup
+- Angular v18 com componentes independentes
+- Framework de testes Jest
+- Configuração TypeScript
+- Estilização com SCSS
+- Design responsivo
+- Configuração de desenvolvimento moderna
 
-## Getting Started
+## Primeiros Passos
 
-### Prerequisites
+### Pré-requisitos
 
-- Node.js (v18.x or higher)
-- npm (v9.x or higher)
+- Node.js (v18.x ou superior)
+- npm (v9.x ou superior)
 
-### Installation
+### Instalação
 
-1. Clone the repository
-2. Install dependencies:
+1. Clone o repositório
+2. Instale as dependências:
    ```bash
    npm install
    ```
 
-### Development
+### Desenvolvimento
 
-Start the development server:
+Inicie o servidor de desenvolvimento:
 ```bash
 npm start
 ```
 
-The application will be available at `http://localhost:4200`
+A aplicação estará disponível em `http://localhost:4200`
 
-### Testing
+### Testes
 
-Run the test suite:
+Execute a suíte de testes:
 ```bash
 npm test
 ```
 
-Run tests with coverage:
+Execute os testes com cobertura:
 ```bash
 npm run test:coverage
 ```
 
-Run tests in watch mode:
+Execute os testes em modo de observação:
 ```bash
 npm run test:watch
 ```
 
-### Building
+### Build
 
-Build the project for production:
+Compile o projeto para produção:
 ```bash
 npm run build
 ```
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 src/
@@ -75,32 +75,32 @@ src/
 └── styles.scss
 ```
 
-## Technologies Used
+## Tecnologias Utilizadas
 
 - **Angular**: v18.x
 - **TypeScript**: v5.5.x
 - **Jest**: v29.x
-- **SCSS**: For styling
-- **RxJS**: For reactive programming
+- **SCSS**: Para estilização
+- **RxJS**: Para programação reativa
 
 ## Scripts
 
-- `npm start`: Start development server
-- `npm run build`: Build for production
-- `npm test`: Run tests
-- `npm run test:watch`: Run tests in watch mode
-- `npm run test:coverage`: Run tests with coverage report
-- `npm run lint`: Run linter
+- `npm start`: Inicia o servidor de desenvolvimento
+- `npm run build`: Compila para produção
+- `npm test`: Executa os testes
+- `npm run test:watch`: Executa os testes em modo de observação
+- `npm run test:coverage`: Executa os testes com relatório de cobertura
+- `npm run lint`: Executa o linter
 
-## Contributing
+## Contribuição
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Write tests for your changes
-5. Run tests to ensure they pass
-6. Submit a pull request
+1. Faça um fork do repositório
+2. Crie uma branch de funcionalidade
+3. Faça suas alterações
+4. Escreva testes para suas alterações
+5. Execute os testes para garantir que eles passem
+6. Envie um pull request
 
-## License
+## Licença
 
-This project is licensed under the MIT License.
+Este projeto está licenciado sob a Licença MIT.
