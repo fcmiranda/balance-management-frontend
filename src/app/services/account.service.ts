@@ -123,19 +123,35 @@ export class AccountService {
     );
   }
 
+  deleteAccount(accountId: number): Observable<void> {
+    this.loadingSubject.next(true);
+    this.errorSubject.next(null);
+    
+    return this.http.delete<void>(`${this.apiUrl}/${accountId}`).pipe(
+      tap(() => {
+        const currentAccounts = this.accountsSubject.value;
+        this.accountsSubject.next(currentAccounts.filter(account => account.id !== accountId));
+        this.loadingSubject.next(false);
+      }),
+      tap({
+        error: (error) => {
+          this.errorSubject.next(error.error?.message || 'Falha ao excluir conta');
+          this.loadingSubject.next(false);
+        }
+      })
+    );
+  }
+
   selectAccount(account: Account | null): void {
     this.selectedAccountSubject.next(account);
   }
 
-  private updateAccountInList(updatedAccount: Account): void {
+  private updateAccountInList(updatedAccount: Account) {
     const currentAccounts = this.accountsSubject.value;
-    const updatedAccounts = currentAccounts.map(account => 
-      account.id === updatedAccount.id ? updatedAccount : account
-    );
-    this.accountsSubject.next(updatedAccounts);
-    
-    if (this.selectedAccountSubject.value?.id === updatedAccount.id) {
-      this.selectedAccountSubject.next(updatedAccount);
+    const index = currentAccounts.findIndex(a => a.id === updatedAccount.id);
+    if (index !== -1) {
+      currentAccounts[index] = updatedAccount;
+      this.accountsSubject.next([...currentAccounts]);
     }
   }
 

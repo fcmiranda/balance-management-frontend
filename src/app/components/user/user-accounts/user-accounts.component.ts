@@ -20,6 +20,7 @@ import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { Account } from '../../../models/account.model';
 import { TransactionDialogComponent } from '../../ui/transaction-dialog/transaction-dialog.component';
+import { ConfirmDialogComponent } from '../../ui/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-accounts',
@@ -33,7 +34,8 @@ import { TransactionDialogComponent } from '../../ui/transaction-dialog/transact
     MatIconModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    ConfirmDialogComponent
   ],
   templateUrl: './user-accounts.component.html',
   styleUrls: ['./user-accounts.component.scss']
@@ -118,6 +120,106 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onViewDetails(account: Account): void {
+    this.router.navigate(['/user/account-details', account.id]);
+  }
+
+  onDeleteAccount(account: Account): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirmar Exclusão',
+        message: `Tem certeza de que deseja excluir a conta ${this.formatAccountNumber(account.accountNumber)}?`,
+        confirmText: 'Excluir',
+        cancelText: 'Cancelar',
+        type: 'danger'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.accountService.deleteAccount(account.id).subscribe({
+          next: () => {
+            this.snackBar.open('Conta excluída com sucesso!', 'Fechar', {
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            });
+            this.loadAccounts();
+          },
+          error: (err) => {
+            this.snackBar.open(err.error?.message || 'Falha ao excluir conta.', 'Fechar', {
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+      }
+    });
+  }
+
+  private openTransactionDialog(account: Account, type: 'withdraw' | 'deposit'): void {
+    const dialogRef = this.dialog.open(TransactionDialogComponent, {
+      width: '500px',
+      data: {
+        title: type === 'deposit' ? 'Depositar Fundos' : 'Sacar Fundos',
+        message: `${type === 'deposit' ? 'Adicionar fundos à' : 'Sacar fundos da'} sua conta ${this.formatAccountNumber(account.accountNumber)}`,
+        type: type,
+        accountNumber: account.accountNumber
+      },
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.processTransaction(result, account.id, type);
+      }
+    });
+  }
+
+  private processTransaction(transaction: { amount: number }, accountId: number, type: 'withdraw' | 'deposit'): void {
+    
+    if (type === 'withdraw') {
+      this.accountService.withdraw(accountId, transaction.amount).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedAccount) => {
+          this.snackBar.open(
+            `Saque de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
+            'Fechar', 
+            { duration: 5000, panelClass: ['success-snackbar'] }
+          );
+          this.loadAccounts();
+        },
+        error: (error) => {
+          this.snackBar.open(
+            error.error?.message || 'Falha no saque', 
+            'Fechar', 
+            { duration: 5000, panelClass: ['error-snackbar'] }
+          );
+        }
+      });
+    } else if (type === 'deposit') {
+      this.accountService.deposit(accountId, transaction.amount).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedAccount) => {
+          this.snackBar.open(
+            `Depósito de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
+            'Fechar', 
+            { duration: 5000, panelClass: ['success-snackbar'] }
+          );
+          this.loadAccounts();
+        },
+        error: (error) => {
+          this.snackBar.open(
+            error.error?.message || 'Falha no depósito', 
+            'Fechar', 
+            { duration: 5000, panelClass: ['error-snackbar'] }
+          );
+        }
+      });
+    }
+  }
+
   get totalBalance(): number {
     return this.accounts.reduce((total, account) => total + account.balance, 0);
   }
@@ -189,69 +291,5 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
 
   onWithdraw(account: Account): void {
     this.openTransactionDialog(account, 'withdraw');
-  }
-
-  private openTransactionDialog(account: Account, type: 'withdraw' | 'deposit'): void {
-    const dialogRef = this.dialog.open(TransactionDialogComponent, {
-      width: '500px',
-      data: {
-        title: type === 'deposit' ? 'Depositar Fundos' : 'Sacar Fundos',
-        message: `${type === 'deposit' ? 'Adicionar fundos à' : 'Sacar fundos da'} sua conta ${this.formatAccountNumber(account.accountNumber)}`,
-        type: type,
-        accountNumber: account.accountNumber
-      },
-      disableClose: false
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.processTransaction(result, account.id, type);
-      }
-    });
-  }
-
-  private processTransaction(transaction: { amount: number }, accountId: number, type: 'withdraw' | 'deposit'): void {
-    
-    if (type === 'withdraw') {
-      this.accountService.withdraw(accountId, transaction.amount).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (updatedAccount) => {
-          this.snackBar.open(
-            `Saque de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
-            'Fechar', 
-            { duration: 5000, panelClass: ['success-snackbar'] }
-          );
-          this.loadAccounts();
-        },
-        error: (error) => {
-          this.snackBar.open(
-            error.error?.message || 'Falha no saque', 
-            'Fechar', 
-            { duration: 5000, panelClass: ['error-snackbar'] }
-          );
-        }
-      });
-    } else if (type === 'deposit') {
-      this.accountService.deposit(accountId, transaction.amount).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (updatedAccount) => {
-          this.snackBar.open(
-            `Depósito de ${this.formatCurrency(transaction.amount)} processado com sucesso!`, 
-            'Fechar', 
-            { duration: 5000, panelClass: ['success-snackbar'] }
-          );
-          this.loadAccounts();
-        },
-        error: (error) => {
-          this.snackBar.open(
-            error.error?.message || 'Falha no depósito', 
-            'Fechar', 
-            { duration: 5000, panelClass: ['error-snackbar'] }
-          );
-        }
-      });
-    }
   }
 }

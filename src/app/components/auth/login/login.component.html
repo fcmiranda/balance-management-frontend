@@ -42,7 +42,7 @@
                         class="w-full h-12 text-base font-medium flex items-center justify-center gap-2">
                         <mat-spinner *ngIf="loading" diameter="20" class="mr-2"></mat-spinner>
                         <mat-icon *ngIf="!loading">login</mat-icon>
-                        {{ loading ? 'Entrando...' : 'Entrar' }}
+                        <span *ngIf="!loading">Entrar</span>
                     </button>
                 </div>
             </form>

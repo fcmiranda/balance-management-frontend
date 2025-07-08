@@ -126,6 +126,11 @@
                     <mat-icon>payments</mat-icon>
                     <span>Sacar</span>
                   </button>
+
+                  <button mat-menu-item (click)="onDeleteAccount(account)">
+                    <mat-icon color="warn">delete</mat-icon>
+                    <span class="text-red-500">Excluir Conta</span>
+                  </button>
                 </mat-menu>
               </td>
             </ng-container>

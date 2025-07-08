@@ -42,7 +42,7 @@
             @if (loading) {
             <mat-spinner diameter="16" class="mr-2"></mat-spinner>
             }
-            {{ loading ? 'Processando...' : (data.type === 'deposit' ? 'Depositar' : 'Sacar') }}
+            <span *ngIf="!loading">{{(data.type === 'deposit' ? 'Depositar' : 'Sacar')}}</span>
         </button>
     </div>
 </div>
