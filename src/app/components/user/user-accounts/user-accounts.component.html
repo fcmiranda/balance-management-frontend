@@ -1,0 +1,106 @@
+<div class="max-w-6xl mx-auto p-4">
+  <div class="mb-8">
+    <div class="flex justify-between items-start mb-6 flex-wrap gap-4">
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold mb-2 text-gray-800">My Accounts</h1>
+        <p class="text-gray-700">Manage your bank accounts</p>
+      </div>
+      <div class="flex-shrink-0">
+        <button 
+          mat-button
+          color="warn"
+          (click)="onLogout()"
+          class="px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <mat-icon class="mr-2">exit_to_app</mat-icon>
+          Logout
+        </button>
+      </div>
+    </div>
+    
+    <mat-card class="rounded-xl shadow-md">
+      <mat-card-header class="p-6 pb-0">
+        <mat-card-title class="text-xl font-semibold">My Accounts</mat-card-title>
+        <mat-card-subtitle class="text-gray-500">All your active accounts</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="p-6">
+        @if (loading) {
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p class="mt-4 text-gray-600">Loading accounts...</p>
+        </div>
+        } @else if (error) {
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <mat-icon class="text-red-600 text-6xl mb-4">error</mat-icon>
+          <p class="text-red-600 mb-4 text-lg">{{ error }}</p>
+          <button mat-raised-button color="primary" (click)="onRefresh()">
+            <mat-icon>refresh</mat-icon>
+            Retry
+          </button>
+        </div>
+        } @else if (accounts.length === 0) {
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+          <mat-icon class="text-gray-400 text-6xl mb-4">account_balance</mat-icon>
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">No Accounts Yet</h3>
+          <p class="text-gray-500 mb-6">Get started by creating your first account</p>
+          <button mat-raised-button color="primary" (click)="onCreateAccount()">
+            <mat-icon>add</mat-icon>
+            Create Your First Account
+          </button>
+        </div>
+        } @else {
+        <div class="flex justify-end py-4 border-b border-gray-200">
+          <div class="flex gap-2">
+            <button 
+              mat-raised-button
+              color="primary"
+              (click)="onCreateAccount()"
+              [disabled]="loading"
+              class="px-4 py-2 text-sm"
+            >
+              <mat-icon class="mr-1">add</mat-icon>
+              Create Account
+            </button>
+            <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh accounts">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table mat-table [dataSource]="dataSource" matSort class="w-full mt-4">
+            <!-- Account Number Column -->
+            <ng-container matColumnDef="accountNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Number</th>
+              <td mat-cell *matCellDef="let account" class="font-mono">
+                {{ formatAccountNumber(account.accountNumber) }}
+              </td>
+            </ng-container>
+
+            <!-- Balance Column -->
+            <ng-container matColumnDef="balance">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+              <td mat-cell *matCellDef="let account">
+                <span [class]="getBalanceColor(account.balance)" class="font-semibold">
+                  {{ formatCurrency(account.balance) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Created Date Column -->
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+              <td mat-cell *matCellDef="let account">
+                {{ formatDate(account.createdAt) }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="account-row hover:bg-gray-50"></tr>
+          </table>
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

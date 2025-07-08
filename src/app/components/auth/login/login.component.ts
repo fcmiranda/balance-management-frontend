@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
 
     // Redirect if already authenticated
     if (this.authService.isAuthenticated) {
-      this.router.navigate(['/admin/users']);
+      this.redirectToDefaultPage();
     }
   }
 
@@ -78,12 +78,17 @@ export class LoginComponent implements OnInit {
             duration: 3000,
             panelClass: ['success-snackbar']
           });
-          this.router.navigate(['/admin/users']);
+          this.redirectToDefaultPage();
         },
         error: (error) => {
           console.error('Login error:', error);
         }
       });
     }
+  }
+
+  private redirectToDefaultPage(): void {
+    const redirectPath = this.authService.getDefaultRedirectPath();
+    this.router.navigate([redirectPath]);
   }
 }

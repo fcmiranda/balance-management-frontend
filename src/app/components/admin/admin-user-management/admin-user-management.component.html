@@ -7,11 +7,13 @@
       </div>
       <div class="flex-shrink-0">
         <button 
-          mat-raised-button
-          routerLink="/admin/users/new"
+          mat-button
+          color="warn"
+          (click)="onLogout()"
           class="px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
         >
-          Create User
+          <mat-icon class="mr-2">exit_to_app</mat-icon>
+          Logout
         </button>
       </div>
     </div>
@@ -40,6 +42,14 @@
         } @else {
         <div class="flex justify-end py-4 border-b border-gray-200">
           <div class="flex gap-2">
+            <button 
+              mat-raised-button
+              routerLink="/admin/users/new"
+              class="px-4 py-2 text-sm"
+            >
+              <mat-icon class="mr-1">add</mat-icon>
+              Create User
+            </button>
             <button mat-icon-button (click)="onRefresh()" matTooltip="Refresh users">
               <mat-icon>refresh</mat-icon>
             </button>

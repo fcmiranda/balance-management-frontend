@@ -24,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Services and Models
 import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 import { User, UserRole } from '../../../models/auth.model';
 
 @Component({
@@ -70,6 +71,7 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {
@@ -143,5 +145,18 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleDateString();
+  }
+
+  onLogout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+        // Even if logout fails on server, redirect to login
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

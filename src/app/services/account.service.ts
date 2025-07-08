@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Account, CreateAccountRequest, TransactionRequest, Transaction } from '../models/account.model';
+import { Account, TransactionRequest, Transaction } from '../models/account.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -64,11 +64,11 @@ export class AccountService {
     return this.http.get<Transaction[]>(`${this.apiUrl}/${accountId}/transactions`);
   }
 
-  createAccount(accountData: CreateAccountRequest): Observable<Account> {
+  createAccount(): Observable<Account> {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
     
-    return this.http.post<Account>(this.apiUrl, accountData).pipe(
+    return this.http.post<Account>(this.apiUrl, {}).pipe(
       tap(newAccount => {
         const currentAccounts = this.accountsSubject.value;
         this.accountsSubject.next([...currentAccounts, newAccount]);

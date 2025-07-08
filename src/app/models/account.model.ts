@@ -23,9 +23,7 @@ export interface Transaction {
 }
 
 export interface CreateAccountRequest {
-  type: string;
-  initialDeposit?: number;
-  description?: string;
+  // Empty object as per API specification
 }
 
 export interface TransactionRequest {

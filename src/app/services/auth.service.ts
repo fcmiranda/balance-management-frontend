@@ -100,4 +100,14 @@ export class AuthService {
   get isClient(): boolean {
     return this.currentUser?.role === 'client';
   }
+
+  getDefaultRedirectPath(): string {
+    if (this.isAdmin) {
+      return '/admin/users';
+    } else if (this.isClient) {
+      return '/accounts';
+    } else {
+      return '/dashboard';
+    }
+  }
 }
