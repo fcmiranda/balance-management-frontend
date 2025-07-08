@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/auth.model';
 import { ErrorMappingService } from './error-mapping.service';
 import { environment } from '../../environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,34 @@ export class AuthService {
   private initializeAuth(): void {
     const token = localStorage.getItem(this.tokenKey);
     if (token) {
-      this.getCurrentUser().subscribe({
-        next: (user) => this.userSubject.next(user),
-        error: () => this.logout()
-      });
+      try {
+        const user = this.decodeUserFromToken(token);
+        this.userSubject.next(user);
+      } catch (error) {
+        // Token inválido ou expirado
+        this.logout();
+      }
     }
+  }
+
+  private decodeUserFromToken(token: string): User {
+    const decoded: any = jwtDecode(token);
+    
+    // Verificar se o token não está expirado
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp && decoded.exp < currentTime) {
+      throw new Error('Token expired');
+    }
+    
+    return {
+      id: decoded.id || decoded.sub,
+      name: decoded.name,
+      email: decoded.email,
+      role: decoded.role,
+      status: decoded.status || 'active',
+      createdAt: decoded.createdAt || new Date().toISOString(),
+      updatedAt: decoded.updatedAt || new Date().toISOString()
+    };
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
@@ -77,22 +101,33 @@ export class AuthService {
     );
   }
 
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/me`);
-  }
-
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => {
-        localStorage.removeItem(this.tokenKey);
-        this.userSubject.next(null);
-        this.errorSubject.next(null);
-      })
-    );
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.userSubject.next(null);
+    this.errorSubject.next(null);
   }
 
   get isAuthenticated(): boolean {
-    return !!this.userSubject.value;
+    const token = localStorage.getItem(this.tokenKey);
+    if (!token) {
+      return false;
+    }
+    
+    try {
+      const decoded: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      
+      // Verificar se o token não está expirado
+      if (decoded.exp && decoded.exp < currentTime) {
+        this.logout();
+        return false;
+      }
+      
+      return !!this.userSubject.value;
+    } catch (error) {
+      this.logout();
+      return false;
+    }
   }
 
   get currentUser(): User | null {

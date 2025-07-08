@@ -85,7 +85,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       role: ['client', [Validators.required]],
-      status: ['active', [Validators.required]],
       password: [''],
       confirmPassword: ['']
     }, { 
@@ -139,8 +138,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.userForm.patchValue({
       name: user.name,
       email: user.email,
-      role: user.role,
-      status: user.status
+      role: user.role
     });
   }
 
@@ -170,7 +168,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   private createUser(): void {
-    const { confirmPassword, status, ...formData } = this.userForm.value;
+    const { confirmPassword, ...formData } = this.userForm.value;
     const userData: RegisterRequest = formData;
     
     this.userService.createUser(userData).pipe(
@@ -200,8 +198,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const updateData: Partial<User> = {
       name: formData.name,
       email: formData.email,
-      role: formData.role,
-      status: formData.status
+      role: formData.role
     };
 
     // Only include password if it's provided

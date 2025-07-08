@@ -278,16 +278,8 @@ export class UserAccountsComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        console.error('Logout error:', error);
-        // Even if logout fails on server, redirect to login
-        this.router.navigate(['/login']);
-      }
-    });
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   onDeposit(account: Account): void {
