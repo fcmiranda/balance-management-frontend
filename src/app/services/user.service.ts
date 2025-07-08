@@ -31,7 +31,7 @@ export class UserService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to load users');
+          this.errorSubject.next(error.error?.message || 'Falha ao carregar usuários');
           this.loadingSubject.next(false);
         }
       })
@@ -50,7 +50,7 @@ export class UserService {
       tap(() => this.loadingSubject.next(false)),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to load user');
+          this.errorSubject.next(error.error?.message || 'Falha ao carregar usuário');
           this.loadingSubject.next(false);
         }
       })
@@ -69,7 +69,7 @@ export class UserService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to create user');
+          this.errorSubject.next(error.error?.message || 'Falha ao criar usuário');
           this.loadingSubject.next(false);
         }
       })
@@ -91,7 +91,7 @@ export class UserService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to update user');
+          this.errorSubject.next(error.error?.message || 'Falha ao atualizar usuário');
           this.loadingSubject.next(false);
         }
       })
@@ -111,7 +111,7 @@ export class UserService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to delete user');
+          this.errorSubject.next(error.error?.message || 'Falha ao excluir usuário');
           this.loadingSubject.next(false);
         }
       })

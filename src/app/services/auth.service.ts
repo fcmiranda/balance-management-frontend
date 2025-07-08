@@ -45,7 +45,7 @@ export class AuthService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Login failed');
+          this.errorSubject.next(error.error?.message || 'Falha no login');
           this.loadingSubject.next(false);
         }
       })
@@ -64,7 +64,7 @@ export class AuthService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Registration failed');
+          this.errorSubject.next(error.error?.message || 'Falha no registro');
           this.loadingSubject.next(false);
         }
       })

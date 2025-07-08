@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.error$.subscribe(error => {
       if (error) {
-        this.snackBar.open(error, 'Close', {
+        this.snackBar.open(error, 'Fechar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
       
       this.authService.register(userData).subscribe({
         next: (response) => {
-          this.snackBar.open('Account created successfully!', 'Close', {
+          this.snackBar.open('Conta criada com sucesso!', 'Fechar', {
             duration: 3000,
             panelClass: ['success-snackbar']
           });

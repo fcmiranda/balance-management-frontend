@@ -32,14 +32,14 @@ export interface TransactionDialogData {
         <mat-icon class="text-3xl mr-3" [class]="getIconClass()">{{ getIcon() }}</mat-icon>
         <div>
           <h2 class="text-xl font-semibold">{{ getTitle() }}</h2>
-          <p class="text-gray-600">Account: {{ data.accountNumber }}</p>
-          <p class="text-sm text-gray-500">Current Balance: {{ formatCurrency(data.currentBalance) }}</p>
+          <p class="text-gray-600">Conta: {{ data.accountNumber }}</p>
+          <p class="text-sm text-gray-500">Saldo Atual: {{ formatCurrency(data.currentBalance) }}</p>
         </div>
       </div>
 
       <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="w-full mb-4">
-          <mat-label>Amount (R$)</mat-label>
+          <mat-label>Valor (R$)</mat-label>
           <input 
             matInput 
             type="text"
@@ -50,16 +50,16 @@ export interface TransactionDialogData {
           >
           <mat-icon matSuffix>attach_money</mat-icon>
           <mat-error *ngIf="transactionForm.get('amount')?.hasError('required')">
-            Amount is required
+            Valor é obrigatório
           </mat-error>
           <mat-error *ngIf="transactionForm.get('amount')?.hasError('min')">
-            Minimum amount is R$ 0,01
+            Valor mínimo é R$ 0,01
           </mat-error>
           <mat-error *ngIf="transactionForm.get('amount')?.hasError('max')">
-            Maximum amount is R$ 999.999,99
+            Valor máximo é R$ 999.999,99
           </mat-error>
           <mat-error *ngIf="transactionForm.get('amount')?.hasError('insufficientFunds') && data.type === 'withdraw'">
-            Insufficient funds
+            Saldo insuficiente
           </mat-error>
         </mat-form-field>
 
@@ -70,7 +70,7 @@ export interface TransactionDialogData {
             (click)="onCancel()"
             class="px-6"
           >
-            Cancel
+            Cancelar
           </button>
           <button 
             type="submit" 
@@ -251,7 +251,7 @@ export class TransactionDialogComponent {
   }
 
   getTitle(): string {
-    return this.data.type === 'withdraw' ? 'Withdraw Funds' : 'Deposit Funds';
+    return this.data.type === 'withdraw' ? 'Sacar Fundos' : 'Depositar Fundos';
   }
 
   getIcon(): string {
@@ -267,7 +267,7 @@ export class TransactionDialogComponent {
   }
 
   getActionText(): string {
-    return this.data.type === 'withdraw' ? 'Withdraw' : 'Deposit';
+    return this.data.type === 'withdraw' ? 'Sacar' : 'Depositar';
   }
 
   onSubmit(): void {

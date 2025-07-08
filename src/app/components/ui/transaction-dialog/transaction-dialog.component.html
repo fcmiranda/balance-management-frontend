@@ -1,6 +1,6 @@
 <div class="transaction-dialog" style="max-width: 500px; width: 100%;">
     <!-- Dialog Header -->
-    <div class="dialog-header">
+    <div class="dialog-header text-center">
         <h2 mat-dialog-title class="text-xl font-bold text-gray-800 mb-2">
             {{ data.title }}
         </h2>
@@ -34,7 +34,7 @@
     <!-- Dialog Actions -->
     <div mat-dialog-actions class="flex gap-3 justify-end p-6 border-t border-gray-200">
         <button mat-button type="button" (click)="onCancel()" [disabled]="loading" class="px-6 py-2">
-            Cancel
+            Cancelar
         </button>
 
         <button mat-raised-button [color]="data.type === 'deposit' ? 'primary' : 'warn'" type="button"
@@ -42,7 +42,7 @@
             @if (loading) {
             <mat-spinner diameter="16" class="mr-2"></mat-spinner>
             }
-            {{ loading ? 'Processing...' : (data.type === 'deposit' ? 'Deposit Funds' : 'Withdraw Funds') }}
+            {{ loading ? 'Processando...' : (data.type === 'deposit' ? 'Depositar' : 'Sacar') }}
         </button>
     </div>
 </div>

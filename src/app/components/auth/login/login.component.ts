@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.error$.subscribe(error => {
       if (error) {
-        this.snackBar.open(error, 'Close', {
+        this.snackBar.open(error, 'Fechar', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
       
       this.authService.login(loginData).subscribe({
         next: (response) => {
-          this.snackBar.open('Login successful!', 'Close', {
+          this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
             duration: 3000,
             panelClass: ['success-snackbar']
           });

@@ -35,7 +35,7 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to load accounts');
+          this.errorSubject.next(error.error?.message || 'Falha ao carregar contas');
           this.loadingSubject.next(false);
         }
       })
@@ -53,7 +53,7 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to load account');
+          this.errorSubject.next(error.error?.message || 'Falha ao carregar conta');
           this.loadingSubject.next(false);
         }
       })
@@ -76,7 +76,7 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Failed to create account');
+          this.errorSubject.next(error.error?.message || 'Falha ao criar conta');
           this.loadingSubject.next(false);
         }
       })
@@ -96,7 +96,7 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Deposit failed');
+          this.errorSubject.next(error.error?.message || 'Falha no depósito');
           this.processingSubject.next(false);
         }
       })
@@ -116,7 +116,7 @@ export class AccountService {
       }),
       tap({
         error: (error) => {
-          this.errorSubject.next(error.error?.message || 'Withdrawal failed');
+          this.errorSubject.next(error.error?.message || 'Falha no saque');
           this.processingSubject.next(false);
         }
       })

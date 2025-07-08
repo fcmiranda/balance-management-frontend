@@ -24,17 +24,17 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
       if (error.status === 401) {
         localStorage.removeItem('client-balance-jwt');
         router.navigate(['/login']);
-        snackBar.open('Session expired. Please login again.', 'Close', {
+        snackBar.open('Sessão expirada. Faça login novamente.', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
       } else if (error.status === 403) {
-        snackBar.open('Access denied. You do not have permission to perform this action.', 'Close', {
+        snackBar.open('Acesso negado. Você não tem permissão para realizar esta ação.', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
       } else if (error.status === 429) {
-        snackBar.open('Too many requests. Please try again later.', 'Close', {
+        snackBar.open('Muitas solicitações. Tente novamente mais tarde.', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });

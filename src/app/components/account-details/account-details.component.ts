@@ -83,9 +83,9 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
         this.loadTransactions();
       },
       error: (error) => {
-        this.error = 'Failed to load account details';
+        this.error = 'Falha ao carregar detalhes da conta';
         this.loading = false;
-        this.snackBar.open('Failed to load account details', 'Close', {
+        this.snackBar.open('Falha ao carregar detalhes da conta', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -104,9 +104,9 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Failed to load transactions';
+        this.error = 'Falha ao carregar transações';
         this.loading = false;
-        this.snackBar.open('Failed to load transactions', 'Close', {
+        this.snackBar.open('Falha ao carregar transações', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });

@@ -98,9 +98,9 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Failed to load users';
+        this.error = 'Falha ao carregar usuários';
         this.loading = false;
-        this.snackBar.open('Failed to load users', 'Close', {
+        this.snackBar.open('Falha ao carregar usuários', 'Fechar', {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
@@ -118,19 +118,19 @@ export class AdminUserManagementComponent implements OnInit, OnDestroy {
   }
 
   onDeleteUser(user: User): void {
-    if (confirm(`Are you sure you want to delete user ${user.name}?`)) {
+    if (confirm(`Tem certeza que deseja excluir o usuário ${user.name}?`)) {
       this.userService.deleteUser(user.id).pipe(
         takeUntil(this.destroy$)
       ).subscribe({
         next: () => {
           this.loadUsers();
-          this.snackBar.open('User deleted successfully', 'Close', {
+          this.snackBar.open('Usuário excluído com sucesso', 'Fechar', {
             duration: 3000,
             panelClass: ['success-snackbar']
           });
         },
         error: (error) => {
-          this.snackBar.open('Failed to delete user', 'Close', {
+          this.snackBar.open('Falha ao excluir usuário', 'Fechar', {
             duration: 3000,
             panelClass: ['error-snackbar']
           });
