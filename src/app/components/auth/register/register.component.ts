@@ -71,10 +71,6 @@ export class RegisterComponent implements OnInit {
       }
     });
 
-    // Redirect if already authenticated
-    if (this.authService.isAuthenticated) {
-      this.redirectToDefaultPage();
-    }
   }
 
   passwordMatchValidator(formGroup: FormGroup) {

@@ -62,10 +62,6 @@ export class LoginComponent implements OnInit {
       }
     });
 
-    // Redirect if already authenticated
-    if (this.authService.isAuthenticated) {
-      this.redirectToDefaultPage();
-    }
   }
 
   onSubmit(): void {
