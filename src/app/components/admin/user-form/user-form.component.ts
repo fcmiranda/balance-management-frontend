@@ -250,7 +250,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   get submitButtonText(): string {
     if (this.submitting) {
-      return this.isEditMode ? 'Atualizando...' : 'Criando...';
+      return '';
     }
     return this.isEditMode ? 'Atualizar Usuário' : 'Criar Usuário';
   }
