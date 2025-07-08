@@ -50,12 +50,12 @@
             
             <div class="flex justify-between items-center">
               <span class="text-gray-600">Criada em:</span>
-              <span>{{ account.createdAt | date:'medium' }}</span>
+              <span>{{ account.createdAt | date:'dd/MM/yyyy' }}</span>
             </div>
             
             <div class="flex justify-between items-center">
               <span class="text-gray-600">Última Atualização:</span>
-              <span>{{ account.updatedAt | date:'medium' }}</span>
+              <span>{{ account.updatedAt | date:'dd/MM/yyyy' }}</span>
             </div>
           </div>
         </mat-card-content>
@@ -108,7 +108,7 @@
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Data</th>
                 <td mat-cell *matCellDef="let transaction">
-                  {{ transaction.createdAt | date:'shortDate' }}
+                  {{ transaction.createdAt | date:'dd/MM/yyyy' }}
                 </td>
               </ng-container>
 

@@ -5,12 +5,9 @@
         <mat-icon>{{ isEditMode ? 'edit' : 'person_add' }}</mat-icon>
         <span>{{ pageTitle }}</span>
       </mat-card-title>
-      <mat-card-subtitle class="text-blue-100 mt-2">
-        {{ isEditMode ? 'Atualize as informações e permissões do usuário' : 'Adicione um novo usuário ao sistema' }}
-      </mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content class="p-8">
+    <mat-card-content class="p-8 mt-8">
       @if (loading) {
         <div class="flex flex-col items-center justify-center py-12">
           <mat-spinner diameter="40"></mat-spinner>
@@ -79,13 +76,11 @@
           </mat-form-field>
 
           <!-- Password Section -->
-          <div class="border-t pt-6 mt-6">
+          <div class="border-t pt-6 mt-3">
             <h3 class="text-lg font-semibold text-gray-700 mb-2">
               {{ isEditMode ? 'Alterar Senha (Opcional)' : 'Senha' }}
             </h3>
-            @if (isEditMode) {
-              <p class="text-sm text-gray-500 italic mb-4">Deixe em branco para manter a senha atual</p>
-            }
+
 
             <!-- Password Field -->
             <mat-form-field appearance="outline" class="w-full mb-4">
